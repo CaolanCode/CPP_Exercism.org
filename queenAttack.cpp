@@ -9,6 +9,11 @@
 #include <iostream>
 using namespace std;
 
+void printArray(char *board[10][19]){
+    
+    cout << board << endl;
+}
+
 int main(){
     char board[10][19] = {{' ',' ','a',' ','b',' ','c',' ','d',' ','e',' ','f',' ','g',' ','h',' ',' '},
         {'8',' ','_',' ','_',' ','_',' ','_',' ','_',' ','_',' ','_',' ','_',' ','8'},
@@ -22,12 +27,16 @@ int main(){
         {' ',' ','a',' ','b',' ','c',' ','d',' ','e',' ','f',' ','g',' ','h',' ',' '}
     };
     
+    char *ptr[10][19];
+    
+    
     for(int i = 0; i < 10; i++){
         for(int j = 0; j < 19; j++){
-            cout << board[i][j];
+            ptr[i][j] = &board[i][j];
         }
-        cout << endl;
     }
+    
+    printArray(ptr);
     
         return 0;
 }
