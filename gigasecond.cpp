@@ -23,4 +23,5 @@ int main(){
     
     cout << "In a gigasecond it will be: " << gigaTimeString << endl;
     
+    return 0;
 }
