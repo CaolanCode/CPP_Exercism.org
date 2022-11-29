@@ -19,7 +19,6 @@ int main(){
         results[i] = true;
     }
     
-    cout << sqrt(10) << endl;
         
     for(int i = 2; i <= limit/2; i++){
         if(results[i] == true){
