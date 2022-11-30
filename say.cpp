@@ -126,13 +126,9 @@ string decimal(int number){
     return "Error";
 }
 
-string belowTh(long int number){
+string belowHun(int decInt){
     string result = "";
-    int decInt = 0;
-    int centInt = 0;
     int digInt = 0;
-    decInt = number % 100;
-    centInt = number / 100;
     
     if(decInt > 10 && decInt < 20){
         result = teens(decInt);
@@ -144,14 +140,35 @@ string belowTh(long int number){
         if(digInt > 0){
             result = digit(digInt);
         }
-        
-        decInt -= digInt;
-        result = decimal(decInt) + result;
+
+    decInt -= digInt;
+    result = decimal(decInt) + result;
     }
-    if(centInt > 0){
-        result = digit(centInt) + " hundred and " + result;
+    
+    return result;
+    
+}
+
+string cent(int number){
+    string result = "";
+    
+    if(number > 0){
+        result = digit(number) + " hundred and " + result;
     }
-        
+    
+    return result;
+}
+
+string belowTh(int number){
+    string result = "";
+    int decInt = 0;
+    int centInt = 0;
+    
+    decInt = number % 100;
+    centInt = number / 100;
+    result = belowHun(decInt);
+    result = cent(centInt) + result;
+    
     return result;
 }
 
@@ -159,30 +176,12 @@ string belowMil(int number){
     string result = "";
     int decInt = 0;
     int centInt = 0;
-    int digInt = 0;
+    
     decInt = number % 100;
     centInt = number / 100;
+    result = belowHun(decInt) + " thousand and ";
+    result = cent(centInt) + result;
     
-    if(decInt > 10 && decInt < 20){
-        result = teens(decInt) + " thousand and ";
-    } else if(decInt > 0 && decInt < 10){
-        result = digit(decInt) + " thousand and ";
-    }
-    if(decInt >= 20){
-        digInt = decInt % 10;
-        result = digit(digInt);
-        decInt -= digInt;
-        result = decimal(decInt) + result + " thousand and ";
-    }
-    if(centInt > 0){
-        if(decInt > 0){
-            result = digit(centInt) + " hundred and " + result;
-        } else {
-            result = digit(centInt) + " thousand and " + result;
-        }
-        
-    }
-        
     return result;
 }
 
@@ -190,60 +189,25 @@ string belowBil(int number){
     string result = "";
     int decInt = 0;
     int centInt = 0;
-    int digInt = 0;
+    
     decInt = number % 100;
     centInt = number / 100;
+    result = belowHun(decInt) + " million and ";
+    result = cent(centInt) + result;
     
-    if(decInt > 10 && decInt < 20){
-        result = teens(decInt) + " million and ";
-    } else if(decInt > 0 && decInt < 10){
-        result = digit(decInt) + " million and ";
-    }
-    if(decInt >= 20){
-        digInt = decInt % 10;
-        result = digit(digInt);
-        decInt -= digInt;
-        result = decimal(decInt) + result + " million and ";
-    }
-    if(centInt > 0){
-        if(decInt > 0){
-            result = digit(centInt) + " hundred and " + result;
-        } else {
-            result = digit(centInt) + " hundred million and " + result;
-        }
-    }
-        
     return result;
 }
 
-string belowTril(int number){
+string belowTrill(int number){
     string result = "";
     int decInt = 0;
     int centInt = 0;
-    int digInt = 0;
+    
     decInt = number % 100;
     centInt = number / 100;
+    result = belowHun(decInt) + " billion and ";
+    result = cent(centInt) + result;
     
-    if(decInt > 10 && decInt < 20){
-        result = teens(decInt) + " billion and ";
-    } else if(decInt > 0 && decInt < 10){
-        result = digit(decInt) + " billion and ";
-    }
-    if(decInt >= 20){
-        digInt = decInt % 10;
-        result = digit(digInt);
-        decInt -= digInt;
-        result = decimal(decInt) + result + " billion and ";
-    }
-    if(centInt > 0){
-        if(decInt > 0){
-            result = digit(centInt) + " hundred and " + result;
-        } else {
-            result = digit(centInt) + " billion and " + result;
-        }
-        
-    }
-        
     return result;
 }
 
@@ -251,11 +215,7 @@ string belowTril(int number){
 int main(){
     long int number = 0;
     string result = "";
-    int lessThou = 0;
-    int lessMill = 0;
-    int lessBill = 0;
-    int lessTril = 0;
-    int mod = 0;
+    int thousand = 0;
     
     cout << "Enter a number between 0 to 999,999,999,999: ";
     cin >> number;
@@ -266,32 +226,35 @@ int main(){
     }
     
     if(number < 1000){
-        result = belowTh(number);
+        thousand = number % 1000;
+        result = belowTh(thousand);
     } else if(number < 100000){
-        lessThou = number % 1000;
-        result = belowTh(lessThou);
-        lessMill = number / 1000;
-        result = belowMil(lessMill) + result;
+        thousand = number % 1000;
+        result = belowTh(thousand);
+        number = number / 1000;
+        thousand = number % 1000;
+        result = belowMil(thousand) + result;
     }else if(number < 100000000){
-        lessThou = number % 1000;
-        result = belowTh(lessThou);
-        lessMill = number / 1000;
-        lessBill = lessMill / 1000;
-        lessMill = lessMill % 1000;
-        result = belowMil(lessMill) + result;
-        result = belowBil(lessBill) + result;
+        thousand = number % 1000;
+        result = belowTh(thousand);
+        number = number / 1000;
+        thousand = number % 1000;
+        result = belowMil(thousand) + result;
+        number = number / 1000;
+        thousand = number % 1000;
+        result = belowBil(thousand) + result;
     } else{
-        lessThou = number % 1000;
-        result = belowTh(lessThou);
+        thousand = number % 1000;
+        result = belowTh(thousand);
         number = number / 1000;
-        lessMill = number % 1000;
-        result = belowMil(lessMill) + result;
+        thousand = number % 1000;
+        result = belowMil(thousand) + result;
         number = number / 1000;
-        lessBill = number % 1000;
-        result = belowBil(lessBill) + result;
+        thousand = number % 1000;
+        result = belowBil(thousand) + result;
         number = number / 1000;
-        lessTril = number % 1000;
-        result = belowTril(lessTril) + result;
+        thousand = number % 1000;
+        result = belowTrill(thousand) + result;
     }
     
     
