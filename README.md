@@ -1,5 +1,5 @@
 # C++ Programs
 
-Using exercise descriptions from exerism.org
-
+Exercises description on Exercism.org held in the **Exercism** directory
+Exercises from a textbook are held in the **Book** directory
 
